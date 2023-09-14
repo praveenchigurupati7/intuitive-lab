@@ -4,16 +4,12 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- feature-branch
 
 pool:
   vmImage: ubuntu-latest
 
 steps:
-- script: echo Hello, world!
+- script: echo Running Terraform template
   displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
