@@ -39,7 +39,10 @@ jobs:
     - name: Terraform Plan
       run: |
         pwd
+        ls -lrt
         cd terraform
+        pwd
+        ls -lrt
         terraform plan -var-file=variables.tfvars
       
  
