@@ -26,6 +26,20 @@ jobs:
     # Checkout the repository to the GitHub Actions runner
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Change directory
+      run: cd terraform
+
+    - name: Set up Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 1.0.0
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Plan
+      run: terraform plan -var-file=variables.tfvars
  
     # - name: 'Terraform Format'
     #   uses: hashicorp/terraform-github-actions@master
@@ -34,29 +48,29 @@ jobs:
     #     tf_actions_subcommand: 'fmt'
     #     tf_actions_working_dir: "./terraform"
          
-    - name: 'Terraform Init'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'init'
-        tf_actions_working_dir: "./terraform"
-        tf_actions_comment: true
-        args: '-var-file="variables.tfvars"'
+    # - name: 'Terraform Init'
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.14.8
+    #     tf_actions_subcommand: 'init'
+    #     tf_actions_working_dir: "./terraform"
+    #     tf_actions_comment: true
+    #     args: '-var-file="variables.tfvars"'
  
-    - name: 'Terraform Validate'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'validate'
-        tf_actions_working_dir: "./terraform"
+    # - name: 'Terraform Validate'
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.14.8
+    #     tf_actions_subcommand: 'validate'
+    #     tf_actions_working_dir: "./terraform"
          
-    - name: 'Terraform Plan'
-      uses: hashicorp/terraform-github-actions@master
-      with:
-        tf_actions_version: 0.14.8
-        tf_actions_subcommand: 'plan'
-        tf_actions_working_dir: "./terraform"
-        args: '-var-file="./variables.tfvars"'
+    # - name: 'Terraform Plan'
+    #   uses: hashicorp/terraform-github-actions@master
+    #   with:
+    #     tf_actions_version: 0.14.8
+    #     tf_actions_subcommand: 'plan'
+    #     tf_actions_working_dir: "./terraform"
+    #     args: '-var-file="./variables.tfvars"'
  
     # - name: Terraform Apply
     #   if: github.ref == 'refs/heads/main'
