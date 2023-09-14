@@ -1,6 +1,6 @@
 region                   = "East US"
 rg-name                  = "intutive-cloud"
-sa-name                  = "intutive-storage"
+sa-name                  = "intstore"
 account_tier             = "Standard"
 account_replication_type = "LRS"
 vnet-name                = "intutivevnet"

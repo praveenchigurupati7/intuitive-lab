@@ -20,7 +20,7 @@ resource "azurerm_resource_group" "rg" {
 module "storage" {
   source = "./module/storage"
 
-  sa-name                  = "${var.sa-name}-${random_string.stg-random.id}"
+  sa-name                  = "${var.sa-name}${random_string.stg-random.id}"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = var.region
   account_tier             = var.account_tier
