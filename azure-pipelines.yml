@@ -7,9 +7,54 @@ trigger:
 - feature-branch
 
 pool:
-  vmImage: ubuntu-latest
+  vmImage: 'ubuntu-latest'
 
-steps:
-- script: echo Running Terraform template
-  displayName: 'Run a one-line script'
+stages:
+- stage: Deploy
+  jobs:
+  - job: 'TerraformDeployment'
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.x'
+        addToPath: true
+        architecture: 'x64'
+
+    - script: |
+        echo Installing Terraform
+        wget https://releases.hashicorp.com/terraform/1.5.7/terraform_1.5.7_linux_amd64.zip
+        unzip terraform_1.5.7_linux_amd64.zip
+        sudo mv terraform /usr/local/bin/
+        terraform --version
+
+        # Authenticate to Azure (use Azure service principal credentials)
+        az login --service-principal -u $(azureServicePrincipalId) -p $(azureServicePrincipalPassword) --tenant $(azureTenantId)
+      displayName: 'Install Terraform and Authenticate to Azure'
+
+    - script: |
+        # Navigate to your Terraform configuration directory
+        cd $(terraformConfigurationDirectory)
+
+        # Initialize Terraform
+        terraform init
+
+        # Validate the Terraform configuration
+        terraform validate
+      displayName: 'Initialize Terraform and Validate Configuration'
+
+    - script: |
+        # Navigate to your Terraform configuration directory
+        cd $(terraformConfigurationDirectory)
+
+        # Plan the Terraform deployment
+        terraform plan -out=tfplan
+      displayName: 'Terraform Plan'
+
+    - script: |
+        # Navigate to your Terraform configuration directory
+        cd $(terraformConfigurationDirectory)
+
+        # Apply the Terraform plan
+        terraform apply tfplan -auto-approve
+      displayName: 'Terraform Apply'
 
